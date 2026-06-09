@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 function App() {
   const [loading, setLoading] = useState(true);
   const [screen, setScreen] = useState("home");
+  const [selectedCase, setSelectedCase] = useState(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 3000);
@@ -32,13 +33,9 @@ function App() {
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
-          overflow: "hidden",
         }}
       >
-        <h2 style={{ color: "#00d9ff" }}>
-          INITIALIZING SHADOWTRACE
-        </h2>
-
+        <h2 style={{ color: "#00d9ff" }}>INITIALIZING SHADOWTRACE</h2>
         <h1 style={{ textShadow: "0 0 20px #00ff9d" }}>
           LOADING SYSTEM...
         </h1>
@@ -49,8 +46,8 @@ function App() {
             height: "6px",
             background: "#111",
             marginTop: "30px",
-            borderRadius: "10px",
             overflow: "hidden",
+            borderRadius: "10px",
           }}
         >
           <div
@@ -75,6 +72,57 @@ function App() {
     );
   }
 
+  // ================= INVESTIGATION SCREEN =================
+  if (selectedCase) {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          background: "#000",
+          color: "#00ff9d",
+          fontFamily: "monospace",
+          padding: "40px",
+        }}
+      >
+        <h1 style={{ textShadow: "0 0 25px #00ff9d" }}>
+          🕵️ INVESTIGATION FILE
+        </h1>
+
+        <h2 style={{ marginTop: "20px" }}>{selectedCase}</h2>
+
+        <div style={{ marginTop: "30px" }}>
+          <h3>📁 Evidence</h3>
+          <ul>
+            <li>Encrypted system logs recovered</li>
+            <li>Suspicious network traces found</li>
+            <li>Unknown digital signature detected</li>
+          </ul>
+
+          <h3 style={{ marginTop: "20px" }}>🧠 Analyst Notes</h3>
+          <p style={{ color: "#aaa", maxWidth: "600px" }}>
+            This case shows abnormal behavioral patterns.
+            External interference is highly suspected.
+          </p>
+        </div>
+
+        <button
+          onClick={() => setSelectedCase(null)}
+          style={{
+            marginTop: "40px",
+            padding: "12px 25px",
+            background: "#00ff9d",
+            border: "none",
+            fontWeight: "bold",
+            cursor: "pointer",
+          }}
+        >
+          BACK TO CASES
+        </button>
+      </div>
+    );
+  }
+
   // ================= CASE SCREEN =================
   if (screen === "cases") {
     return (
@@ -89,12 +137,12 @@ function App() {
           padding: "40px",
         }}
       >
-        <h1 style={{ textShadow: "0 0 25px #00ff9d" }}>
-          🔎 CASE FILE ROOM
+        <h1 style={{ textShadow: "0 0 20px #00ff9d" }}>
+          CASE FILES
         </h1>
 
         <p style={{ color: "#aaa" }}>
-          Active investigations loaded from system memory.
+          Select an investigation to analyze
         </p>
 
         <div
@@ -109,6 +157,7 @@ function App() {
           {cases.map((c, i) => (
             <div
               key={i}
+              onClick={() => setSelectedCase(c)}
               style={{
                 padding: "20px",
                 border: "1px solid #00ff9d33",
@@ -130,6 +179,20 @@ function App() {
             </div>
           ))}
         </div>
+
+        <button
+          onClick={() => setScreen("home")}
+          style={{
+            marginTop: "30px",
+            padding: "10px 20px",
+            background: "#111",
+            color: "#00ff9d",
+            border: "1px solid #00ff9d33",
+            cursor: "pointer",
+          }}
+        >
+          BACK TO ROOM
+        </button>
       </div>
     );
   }
@@ -147,14 +210,12 @@ function App() {
         color: "#00ff9d",
       }}
     >
-      {/* ROOM DEPTH BACKGROUND */}
+      {/* DEPTH BACKGROUND */}
       <div
         style={{
           position: "absolute",
           width: "120%",
           height: "120%",
-          top: "-10%",
-          left: "-10%",
           background:
             "radial-gradient(circle at center, #0a0f0c 0%, #000 70%)",
         }}
@@ -169,11 +230,10 @@ function App() {
           background:
             "linear-gradient(115deg, transparent 45%, rgba(0,255,157,0.06), transparent 55%)",
           animation: "scan 6s linear infinite",
-          transform: "rotate(8deg)",
         }}
       />
 
-      {/* PARTICLES (DUST EFFECT) */}
+      {/* PARTICLES */}
       {Array.from({ length: 50 }).map((_, i) => (
         <div
           key={i}
@@ -190,7 +250,7 @@ function App() {
         />
       ))}
 
-      {/* CENTRAL ENERGY CORE */}
+      {/* ENERGY CORE */}
       <div
         style={{
           position: "absolute",
@@ -207,27 +267,7 @@ function App() {
         }}
       />
 
-      {/* BACKGROUND CASE FILES (MOVING SHADOW LAYER) */}
-      <div style={{ position: "absolute", width: "100%", height: "100%" }}>
-        {cases.map((t, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              top: `${10 + i * 15}%`,
-              left: "-30%",
-              fontSize: "2rem",
-              color: "#00ff9d10",
-              whiteSpace: "nowrap",
-              animation: `drift ${18 + i * 4}s linear infinite`,
-            }}
-          >
-            {t}
-          </div>
-        ))}
-      </div>
-
-      {/* UI LAYER */}
+      {/* UI */}
       <div
         style={{
           position: "relative",
@@ -270,8 +310,8 @@ function App() {
           </h1>
 
           <p style={{ maxWidth: "650px", color: "#aaa" }}>
-            A live investigative environment where cases breathe,
-            move, and evolve inside a digital mystery room.
+            A live investigative environment where cases exist as
+            living digital entities.
           </p>
 
           <button
@@ -295,18 +335,13 @@ function App() {
       <style>
         {`
           @keyframes scan {
-            from { transform: translateX(-60%) rotate(8deg); }
-            to { transform: translateX(60%) rotate(8deg); }
+            from { transform: translateX(-60%); }
+            to { transform: translateX(60%); }
           }
 
           @keyframes float {
             from { transform: translateY(0px); opacity: 0.1; }
             to { transform: translateY(-20px); opacity: 0.25; }
-          }
-
-          @keyframes drift {
-            from { transform: translateX(0); }
-            to { transform: translateX(200vw); }
           }
 
           @keyframes pulse {
