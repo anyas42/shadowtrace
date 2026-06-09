@@ -1,165 +1,73 @@
 import { useEffect, useState } from "react";
 
 function App() {
-  const [entered, setEntered] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [screen, setScreen] = useState("home");
 
   useEffect(() => {
-    setTimeout(() => {
-      setEntered(true);
-    }, 5000);
+    const timer = setTimeout(() => setLoading(false), 3000);
+    return () => clearTimeout(timer);
   }, []);
 
-  const floatingObjects = [
-    "🗝️",
-    "📁",
-    "💀",
-    "🔍",
-    "🕵️",
-    "💻",
-    "📡",
-    "🧩",
+  const cases = [
+    "Missing Hacker",
+    "Dark Web Leak",
+    "Project Blackout",
+    "AI Gone Rogue",
+    "Signal Zero",
+    "Ghost Protocol",
   ];
 
-  if (!entered) {
+  // ================= LOADING =================
+  if (loading) {
     return (
       <div
         style={{
           width: "100vw",
           height: "100vh",
-          background: "black",
-          overflow: "hidden",
-          position: "relative",
-          fontFamily: "monospace",
+          background: "#000",
           color: "#00ff9d",
+          fontFamily: "monospace",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          overflow: "hidden",
         }}
       >
-        {/* Twinkling Stars */}
-        {[...Array(70)].map((_, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              width: "2px",
-              height: "2px",
-              background: "white",
-              borderRadius: "50%",
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              opacity: Math.random(),
-              animation: `twinkle ${
-                2 + Math.random() * 3
-              }s infinite alternate`,
-            }}
-          />
-        ))}
+        <h2 style={{ color: "#00d9ff" }}>
+          INITIALIZING SHADOWTRACE
+        </h2>
 
-        {/* Floating Mystery Objects */}
-        {floatingObjects.map((item, index) => (
-          <div
-            key={index}
-            style={{
-              position: "absolute",
-              fontSize: "2rem",
-              top: `${10 + index * 10}%`,
-              left: `${5 + index * 10}%`,
-              animation: `float ${
-                4 + index
-              }s ease-in-out infinite alternate`,
-              opacity: 0.8,
-            }}
-          >
-            {item}
-          </div>
-        ))}
+        <h1 style={{ textShadow: "0 0 20px #00ff9d" }}>
+          LOADING SYSTEM...
+        </h1>
 
-        {/* Center Content */}
         <div
           style={{
-            position: "relative",
-            zIndex: 2,
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            textAlign: "center",
+            width: "300px",
+            height: "6px",
+            background: "#111",
+            marginTop: "30px",
+            borderRadius: "10px",
+            overflow: "hidden",
           }}
         >
-          <p
-            style={{
-              letterSpacing: "4px",
-              color: "#00d9ff",
-              marginBottom: "20px",
-            }}
-          >
-            ENTERING ANOTHER WORLD...
-          </p>
-
-          <h1
-            style={{
-              fontSize: "4rem",
-              textShadow: "0 0 20px #00ff9d",
-              marginBottom: "30px",
-            }}
-          >
-            SHADOWTRACE
-          </h1>
-
-          <p style={{ marginBottom: "30px", color: "#bbbbbb" }}>
-            Initializing investigation system...
-          </p>
-
-          {/* Loading Bar */}
           <div
             style={{
-              width: "320px",
-              height: "5px",
-              background: "#111",
-              borderRadius: "10px",
-              overflow: "hidden",
+              height: "100%",
+              width: "100%",
+              background: "#00ff9d",
+              animation: "load 3s linear forwards",
             }}
-          >
-            <div
-              style={{
-                height: "100%",
-                background: "#00ff9d",
-                animation: "load 5s linear forwards",
-                boxShadow: "0 0 15px #00ff9d",
-              }}
-            />
-          </div>
+          />
         </div>
 
         <style>
           {`
             @keyframes load {
-              from {
-                width: 0%;
-              }
-              to {
-                width: 100%;
-              }
-            }
-
-            @keyframes twinkle {
-              from {
-                opacity: 0.2;
-                transform: scale(1);
-              }
-              to {
-                opacity: 1;
-                transform: scale(1.8);
-              }
-            }
-
-            @keyframes float {
-              from {
-                transform: translateY(0px) rotate(0deg);
-              }
-              to {
-                transform: translateY(-30px) rotate(10deg);
-              }
+              from { width: 0%; }
+              to { width: 100%; }
             }
           `}
         </style>
@@ -167,118 +75,247 @@ function App() {
     );
   }
 
+  // ================= CASE SCREEN =================
+  if (screen === "cases") {
+    return (
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          background:
+            "radial-gradient(circle at center, #0a0a0a, #000)",
+          color: "#00ff9d",
+          fontFamily: "monospace",
+          padding: "40px",
+        }}
+      >
+        <h1 style={{ textShadow: "0 0 25px #00ff9d" }}>
+          🔎 CASE FILE ROOM
+        </h1>
+
+        <p style={{ color: "#aaa" }}>
+          Active investigations loaded from system memory.
+        </p>
+
+        <div
+          style={{
+            marginTop: "40px",
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: "20px",
+          }}
+        >
+          {cases.map((c, i) => (
+            <div
+              key={i}
+              style={{
+                padding: "20px",
+                border: "1px solid #00ff9d33",
+                borderRadius: "10px",
+                background: "#050505",
+                cursor: "pointer",
+                transition: "0.3s",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.boxShadow =
+                  "0 0 25px #00ff9d55")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.boxShadow = "none")
+              }
+            >
+              <h3>{c}</h3>
+              <p style={{ color: "#aaa" }}>Open investigation</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // ================= MYSTERY ROOM HOME =================
   return (
     <div
       style={{
         width: "100vw",
         height: "100vh",
-        backgroundColor: "#050505",
-        color: "#00ff9d",
-        position: "relative",
+        background: "#020203",
         overflow: "hidden",
+        position: "relative",
         fontFamily: "monospace",
+        color: "#00ff9d",
       }}
     >
-      {/* Glow */}
+      {/* ROOM DEPTH BACKGROUND */}
       <div
         style={{
           position: "absolute",
-          width: "700px",
-          height: "700px",
-          background: "#00ff9d22",
-          borderRadius: "50%",
-          filter: "blur(140px)",
-          top: "-250px",
-          right: "-150px",
+          width: "120%",
+          height: "120%",
+          top: "-10%",
+          left: "-10%",
+          background:
+            "radial-gradient(circle at center, #0a0f0c 0%, #000 70%)",
         }}
       />
 
-      {/* Navbar */}
-      <nav
+      {/* SCANNING LIGHT */}
+      <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          padding: "25px 50px",
-          borderBottom: "1px solid #00ff9d33",
+          position: "absolute",
+          width: "200%",
+          height: "200%",
+          background:
+            "linear-gradient(115deg, transparent 45%, rgba(0,255,157,0.06), transparent 55%)",
+          animation: "scan 6s linear infinite",
+          transform: "rotate(8deg)",
+        }}
+      />
+
+      {/* PARTICLES (DUST EFFECT) */}
+      {Array.from({ length: 50 }).map((_, i) => (
+        <div
+          key={i}
+          style={{
+            position: "absolute",
+            width: "2px",
+            height: "2px",
+            background: "#00ff9d",
+            opacity: 0.12,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+            animation: `float ${4 + Math.random() * 6}s infinite alternate`,
+          }}
+        />
+      ))}
+
+      {/* CENTRAL ENERGY CORE */}
+      <div
+        style={{
+          position: "absolute",
+          width: "500px",
+          height: "500px",
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(0,255,157,0.18), transparent 60%)",
+          filter: "blur(40px)",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          animation: "pulse 4s ease-in-out infinite",
+        }}
+      />
+
+      {/* BACKGROUND CASE FILES (MOVING SHADOW LAYER) */}
+      <div style={{ position: "absolute", width: "100%", height: "100%" }}>
+        {cases.map((t, i) => (
+          <div
+            key={i}
+            style={{
+              position: "absolute",
+              top: `${10 + i * 15}%`,
+              left: "-30%",
+              fontSize: "2rem",
+              color: "#00ff9d10",
+              whiteSpace: "nowrap",
+              animation: `drift ${18 + i * 4}s linear infinite`,
+            }}
+          >
+            {t}
+          </div>
+        ))}
+      </div>
+
+      {/* UI LAYER */}
+      <div
+        style={{
           position: "relative",
           zIndex: 2,
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <h2>SHADOWTRACE</h2>
+        <div
+          style={{
+            padding: "20px 40px",
+            borderBottom: "1px solid rgba(0,255,157,0.15)",
+          }}
+        >
+          <h2>SHADOWTRACE</h2>
+        </div>
 
         <div
           style={{
+            flex: 1,
             display: "flex",
-            gap: "30px",
-            color: "#cccccc",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
           }}
         >
-          <span>Cases</span>
-          <span>Database</span>
-          <span>AI Lab</span>
+          <p style={{ color: "#00d9ff", letterSpacing: "4px" }}>
+            YOU ARE INSIDE THE INVESTIGATION ROOM
+          </p>
+
+          <h1
+            style={{
+              fontSize: "5rem",
+              textShadow: "0 0 40px #00ff9d",
+            }}
+          >
+            SHADOWTRACE
+          </h1>
+
+          <p style={{ maxWidth: "650px", color: "#aaa" }}>
+            A live investigative environment where cases breathe,
+            move, and evolve inside a digital mystery room.
+          </p>
+
+          <button
+            onClick={() => setScreen("cases")}
+            style={{
+              marginTop: "40px",
+              padding: "14px 32px",
+              background: "#00ff9d",
+              border: "none",
+              fontWeight: "bold",
+              cursor: "pointer",
+              boxShadow: "0 0 30px #00ff9d55",
+            }}
+          >
+            ENTER CASE FILES
+          </button>
         </div>
-      </nav>
-
-      {/* Main Screen */}
-      <div
-        style={{
-          height: "85vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          textAlign: "center",
-          position: "relative",
-          zIndex: 2,
-        }}
-      >
-        <p
-          style={{
-            color: "#00d9ff",
-            letterSpacing: "4px",
-          }}
-        >
-          ACCESS GRANTED
-        </p>
-
-        <h1
-          style={{
-            fontSize: "6rem",
-            marginTop: "20px",
-            textShadow: "0 0 25px #00ff9d",
-          }}
-        >
-          SHADOWTRACE
-        </h1>
-
-        <p
-          style={{
-            maxWidth: "700px",
-            marginTop: "30px",
-            color: "#bbbbbb",
-            lineHeight: "1.8",
-          }}
-        >
-          Enter a world of encrypted files, cyber mysteries,
-          hidden clues, and AI-powered investigations.
-        </p>
-
-        <button
-          style={{
-            marginTop: "40px",
-            padding: "15px 35px",
-            background: "#00ff9d",
-            border: "none",
-            color: "black",
-            fontWeight: "bold",
-            cursor: "pointer",
-            borderRadius: "6px",
-            boxShadow: "0 0 20px #00ff9d88",
-          }}
-        >
-          ENTER SYSTEM
-        </button>
       </div>
+
+      {/* ANIMATIONS */}
+      <style>
+        {`
+          @keyframes scan {
+            from { transform: translateX(-60%) rotate(8deg); }
+            to { transform: translateX(60%) rotate(8deg); }
+          }
+
+          @keyframes float {
+            from { transform: translateY(0px); opacity: 0.1; }
+            to { transform: translateY(-20px); opacity: 0.25; }
+          }
+
+          @keyframes drift {
+            from { transform: translateX(0); }
+            to { transform: translateX(200vw); }
+          }
+
+          @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.15); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+          }
+        `}
+      </style>
     </div>
   );
 }
