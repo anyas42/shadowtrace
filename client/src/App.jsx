@@ -26,12 +26,3 @@
     text-shadow: 0 0 15px #00ff9d;
   }
 }
-
-@keyframes fogMove {
-  from {
-    transform: translateX(-5%);
-  }
-  to {
-    transform: translateX(5%);
-  }
-}
